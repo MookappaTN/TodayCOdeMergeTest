@@ -20,7 +20,9 @@ public class BaseClass {
 	public void setUp() {
 		
 		ChromeOptions opt = new ChromeOptions();
-		opt.addArguments("--headless=new");
+		opt.addArguments("--headless=new"); // New headless mode
+		opt.addArguments("--disable-gpu"); // Stability in headless mode
+		opt.addArguments("--window-size=1920,1080"); 
 		
 		driver = new ChromeDriver(opt);
 		driver.get("https://practicetestautomation.com/practice-test-login/");
