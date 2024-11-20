@@ -6,8 +6,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import junit.framework.Assert;
@@ -17,11 +19,17 @@ public class BaseClass {
 	public static WebDriver driver;
 	
 	@BeforeMethod
-	public void setUp() {
+	@Parameters("browser")
+	public void setUp(String browser) {
 		
+		if(browser.equalsIgnoreCase("chrome")) {
 		ChromeOptions opt = new ChromeOptions();
 		
 		driver = new ChromeDriver(opt);
+		}
+		else if(browser.equalsIgnoreCase("firefox")){
+			driver = new FirefoxDriver();
+		}
 		driver.get("https://practicetestautomation.com/practice-test-login/");
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
@@ -36,7 +44,6 @@ public class BaseClass {
 		String actualError = driver.findElement(By.id("error")).getText();
 		String expectedError = "Your username is invalid!";
 		Assert.assertEquals(actualError, expectedError);
-		
 		
 	}
 	
